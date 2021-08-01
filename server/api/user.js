@@ -1,17 +1,6 @@
-var dbConfig = require("../db"); // 引入数据库配置
+var conn = require("../db");
 var express = require("express");
 var router = express.Router();
-var mysql = require("mysql");
-
-// 连接数据库
-var conn = mysql.createConnection(dbConfig.mysql);
-conn.connect(function (err) {
-  if (err) {
-    console.log("[connect error]:" + err);
-    return;
-  }
-  console.log("[connect succeed]");
-});
 
 // 路由
 router.get("/list", (req, res) => {
