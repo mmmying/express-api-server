@@ -1,13 +1,13 @@
-var conn = require("../db");
-var express = require("express");
-var router = express.Router();
+const getConnection = require("../db");
+const express = require("express");
+const router = express.Router();
 
 // 路由
 router.post("/", (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
-  var sql = `select * from user where username='${username}' and password='${password}'`;
-  conn.query(sql, function (err, result) {
+  const sql = `select * from user where username='${username}' and password='${password}'`;
+  getConnection(sql, function (err, result) {
     if (err) {
       res.json({
         code: 404,

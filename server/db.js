@@ -1,23 +1,23 @@
 var mysql = require("mysql");
 
 const dbConfig = {
-  mysql: {
-    host: "localhost",
-    user: "admin3",
-    password: "123456",
-    database: "management_db",
-    port: "3306",
-  },
+  host: "localhost",
+  user: "admin3",
+  password: "123456",
+  database: "management_db",
+  port: "3306",
+  connectionLimit: 10,
 };
 
 // 连接数据库
-const conn = mysql.createConnection(dbConfig.mysql);
-conn.connect(function (err) {
-  if (err) {
-    console.log("[connect error]:" + err);
-    return;
-  }
-  console.log("[connect succeed]");
-});
+let pool = mysql.createPool(dbConfig);
+function getConnection(sql, callback) {
+  pool.getConnection(function (err, conn) {
+    if (err) {
+      throw err;
+    }
+    conn.query(sql, callback);
+  });
+}
 
-module.exports = conn;
+module.exports = getConnection;
